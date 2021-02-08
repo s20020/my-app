@@ -1,16 +1,15 @@
 import React from 'react'
 
-const TitleView = props => <h1>{props.children}</h1>
-
 class App extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { value: null}
+    this.state = {
+      countries:[]
+    }
     this.uri = 'https://restcountries.eu/rest/v2/all'
     this.handleClick = this.handleClick.bind(this)
-    this.submitClick = this.submitClick.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
-
 
   componentDidMount () {
     window
@@ -19,46 +18,60 @@ class App extends React.Component {
       .then(json => this.setState({ json }))
 
   }
+
   handleClick (e) {
     const value = e.target.value
-    this.setState({value: value})
+    this.setState({value:value})
   }
 
-  submitClick () {
-    return <h2>{this.state.value}</h2>
+  handleSubmit () {
+    const value = this.state.value
+    console.log(this.state.json[0].translations.ja)
+    console.log(value)
+    this.state.json.map(v => {
+      if( v.translations.ja == value)
+        console.log("ok")
+        const country = 
+        this.setState({countries:v.name})
+    })
+
   }
 
   render() {
     console.log(this.state)
     return(
       <>
-      <Main  onChange={this.handleClick} value={this.state.value} submitClick={this.submitClick} />
-      </> 
+      <Title>世界の国</Title>
+      <InputView onChange={this.handleClick} onaubmit={this.handleSubmit} countries={this.state.countries}/>
+      </>
     )
+    
   }
 
+  
 }
 
-
-const Main = props => { 
-  return(
-    <>
-      <TitleView>世界の国々</TitleView>
-      <InputView onChange={props.onChange} value={props.value} submitClick={props.submitClick}/>
-    </>
-  )
-}
-
+const Title = props => <h1>{props.children}</h1>
 
 const InputView = props => {
   return(
     <>
-      <input type='text' onChange={props.onChange}/> 
-      <button type='submit' onClick='alert' >..</button>
-    
+      <input type='text' name='text' placeholder='調べたい国の入力' onChange={props.onChange}/>
+      <button onClick={props.onaubmit}>taiga</button>
+      <OutputView coutry={props.countries} />
+    </>
+
+  )
+}
+
+const OutputView = props => {
+  console.log(props.countries)
+  return(
+    <>
     </>
   )
 }
+
 
 
 export default App
