@@ -4,7 +4,7 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      countries:[]
+      countries: []
     }
     this.uri = 'https://restcountries.eu/rest/v2/all'
     this.handleClick = this.handleClick.bind(this)
@@ -16,62 +16,60 @@ class App extends React.Component {
       .fetch(this.uri)
       .then(res => res.json())
       .then(json => this.setState({ json }))
-
   }
 
   handleClick (e) {
     const value = e.target.value
-    this.setState({value:value})
+    this.setState({ value: value })
   }
 
+
   handleSubmit () {
+    const country = []
     const value = this.state.value
     console.log(this.state.json[0].translations.ja)
     console.log(value)
     this.state.json.map(v => {
-      if( v.translations.ja == value)
-        console.log("ok")
-        const country = 
-        this.setState({countries:v.name})
+      if(v.translations.ja === value)
+        console.log('ok')
+      return this.setState({ coutries: v.name })
     })
-
+    this.setState({ countries: this.state.json[0] })
+    console.log(this.state)
   }
 
-  render() {
+  render () {
     console.log(this.state)
-    return(
+    return (
       <>
-      <Title>世界の国</Title>
-      <InputView onChange={this.handleClick} onaubmit={this.handleSubmit} countries={this.state.countries}/>
+        <Title>世界の国</Title>
+        <InputView onChange={this.handleClick} onsubmit={this.handleSubmit} countries={this.state.countries} />
       </>
     )
-    
   }
-
-  
 }
 
 const Title = props => <h1>{props.children}</h1>
 
 const InputView = props => {
-  return(
+  return (
     <>
-      <input type='text' name='text' placeholder='調べたい国の入力' onChange={props.onChange}/>
-      <button onClick={props.onaubmit}>taiga</button>
-      <OutputView coutry={props.countries} />
+      <input type='text' name='text' placeholder='調べたい国の入力' onChange={props.onChange} />
+      <button onClick={props.onsubmit}>taiga</button>
+      <OutputView countries={props.countries} />
     </>
 
   )
 }
 
 const OutputView = props => {
-  console.log(props.countries)
-  return(
+  console.log(props.countries.flag)
+  const flaguri = props.countries.flag
+  return (
     <>
+    <h1>{props.countries.name}</h1>
+    <img src={props.countries.flag} />
     </>
   )
 }
-
-
-
 export default App
