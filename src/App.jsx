@@ -24,15 +24,14 @@ class App extends React.Component {
   }
 
 
+
   handleSubmit () {
-    const country = []
     const value = this.state.value
     console.log(this.state.json[0].translations.ja)
     console.log(value)
-    this.state.json.map(v => {
+    this.state.json.map((v) => {
       if(v.translations.ja === value)
         console.log('ok')
-      return this.setState({ coutries: v.name })
     })
     this.setState({ countries: this.state.json[0] })
     console.log(this.state)
@@ -64,7 +63,6 @@ const InputView = props => {
 
 const OutputView = props => {
   console.log(props.countries.flag)
-  const flaguri = props.countries.flag
   return (
     <>
     <h1>{props.countries.name}</h1>
