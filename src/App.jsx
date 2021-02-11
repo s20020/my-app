@@ -1,12 +1,15 @@
 import React from 'react'
 import { TextField } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
+import { makeStyles } from '@material-ui/core/styles'
+import './App.css'
 
 class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      list: []
+      country: [],
+      name: null
     }
     this.uri = 'https://restcountries.eu/rest/v2/all'
     this.handleClick = this.handleClick.bind(this)
@@ -14,22 +17,24 @@ class App extends React.Component {
 
   componentDidMount () {
     const countries = []
-    const taiga = []
+    const names = []
     window
       .fetch(this.uri)
       .then(res => res.json())
       .then(json => json.map(v => {
         if (v.translations.ja) {
-          taiga.push(v.translations.ja)
-          countries.push({ [v.translations.ja]: { population: v.population, capital: v.capital, currencies: v.currencies, area: v.area, region: v.region, flag: v.flag } })
+          names.push(v.translations.ja)
+          countries.push({ population: v.population, capital: v.capital, currencies: v.currencies, area: v.area, region: v.region, flag: v.flag })
         }
       }))
-    this.setState({ name: taiga })
+    this.setState({ names: names })
     this.setState({ countries: countries })
   }
 
   handleClick (e) {
-    console.log(e)
+    const value = e.target.dataset.optionIndex
+    this.setState({ country: this.state.countries[value] })
+    this.setState({ name: this.state.names[value] })
   }
 
   render () {
@@ -37,49 +42,49 @@ class App extends React.Component {
     return (
       <>
         <Title>世界の国</Title>
-        <InputView onChange={this.handleClick} countries={this.state.countries} name={this.state.name} />
+        <InputView onChange={this.handleClick} countries={this.state.countries} names={this.state.names} />
+        <OutputView country={this.state.country} name={this.state.name} />
       </>
     )
   }
 }
 
-
-const Title = props => <h1>{props.children}</h1>
+const Title = props => <div className='main title'><h1>{props.children}</h1></div>
 
 const InputView = props => {
   return (
-    <>
+    <div className='main selecter'>
       <Autocomplete
         id='combo-box-demo'
-        options={props.name}
+        options={props.names}
         getOptionLabel={option => option}
-        onChange={props.onChange}
         style={{ width: 300 }}
+        onChange={props.onChange}
         renderInput={params => (
-          <TextField {...params} label='好きな国を選ぼう' variant='outlined' />
+          <TextField {...params} label='国を選ぼう' variant='outlined' />
         )}
       />
+    </div>
+  )
+}
+
+const OutputView = props => {
+  console.log(props)
+  return (
+    <>
+      <div className='main view'>
+        <ui>
+        <li><strong>人口: {props.country.population}      人</strong></li>
+        <li><strong>面積: {props.country.area}            km2</strong></li>
+        <li><strong>首都: {props.country.capital}</strong></li>
+        <li><strong>通貨: {props.country.currentcies}</strong></li>
+        <li><strong>地域: {props.country.region}</strong></li>
+        </ui>
+        <img src={props.country.flag} alt="国旗"  />
+      </div>
+
     </>
   )
 }
-/*
-const OutputView = props => {
-  <>
-  <p>props.population</p>  
-  <p>props.area</p>  
-  <p>props.capital</p>  
-  <p>props.currentcies</p>  
-  <p>props.Languages</p>  
-  <p>props.region</p>  
-  </>
-} 
-*/
-
-
-
-
-
-
-
 
 export default App
