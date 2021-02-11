@@ -13,23 +13,20 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    const countries = []
-    const taiga = []
     window
       .fetch(this.uri)
       .then(res => res.json())
-      .then(json => json.map(v => {
-        if (v.translations.ja) {
-          taiga.push(v.translations.ja)
-          countries.push({ [v.translations.ja]: { population: v.population, capital: v.capital, currencies: v.currencies, area: v.area, region: v.region, flag: v.flag } })
-        }
-      }))
-    this.setState({ name: taiga })
-    this.setState({ countries: countries })
+      .then(json => this.setState({ json }))
+      .then(taiga => taiga.map(v => {
+        return (
+          this.setState.countries([v.translations.ja] = { population: v.population, capital: v.capital, currencies: v.currencies, area: v.area, Languages: v.Languages, region: v.region, flag: v.flag })
+        )
+      }
+      ))
   }
-
   handleClick (e) {
-    console.log(e)
+    const value = e.target.value
+    this.setState({ country : this.state.countries.value })
   }
 
   render () {
@@ -37,23 +34,23 @@ class App extends React.Component {
     return (
       <>
         <Title>世界の国</Title>
-        <InputView onChange={this.handleClick} countries={this.state.countries} name={this.state.name} />
+        <InputView onChange={this.handleClick} countries={this.state.countries} />
       </>
     )
   }
 }
 
-
 const Title = props => <h1>{props.children}</h1>
 
 const InputView = props => {
+  console.log(props.countires)
+  console.log(Object.keys(props.countires))
   return (
     <>
       <Autocomplete
         id='combo-box-demo'
-        options={props.name}
+        options={Object.keys(props.countries)}
         getOptionLabel={option => option}
-        onChange={props.onChange}
         style={{ width: 300 }}
         renderInput={params => (
           <TextField {...params} label='好きな国を選ぼう' variant='outlined' />
@@ -62,24 +59,4 @@ const InputView = props => {
     </>
   )
 }
-/*
-const OutputView = props => {
-  <>
-  <p>props.population</p>  
-  <p>props.area</p>  
-  <p>props.capital</p>  
-  <p>props.currentcies</p>  
-  <p>props.Languages</p>  
-  <p>props.region</p>  
-  </>
-} 
-*/
-
-
-
-
-
-
-
-
 export default App
