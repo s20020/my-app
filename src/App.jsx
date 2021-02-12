@@ -2,6 +2,7 @@ import React from 'react'
 import { TextField } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
 import './App.css'
 
 class App extends React.Component {
@@ -75,11 +76,11 @@ const OutputView = props => {
     <>
       <div className='main view'>
         <ul>
-        <li><strong>人口: {props.country.population}      人</strong></li>
-        <li><strong>面積: {props.country.area}            km2</strong></li>
-        <li><strong>首都: {props.country.capital}</strong></li>
-        <li><strong>通貨: {props.country.currentcies}</strong></li>
-        <li><strong>地域: {props.country.region}</strong></li>
+        <Paper><li><strong>人口: {props.country.population}      人</strong></li></Paper>
+        <Paper><li><strong>面積: {props.country.area}            km2</strong></li></Paper>
+        <Paper><li><strong>首都: {props.country.capital}</strong></li></Paper>
+        <Paper><li><strong>通貨: {props.country.currentcies}</strong></li></Paper>
+        <Paper><li><strong>地域: {props.country.region}</strong></li></Paper>
         </ul>
         <img src={props.country.flag} alt="国旗"  />
       </div>
