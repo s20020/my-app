@@ -59,6 +59,7 @@ const InputView = props => {
         options={props.names}
         getOptionLabel={option => option}
         style={{ width: 300 }}
+        
         onChange={props.onChange}
         renderInput={params => (
           <TextField {...params} label='国を選ぼう' variant='outlined' />
@@ -73,13 +74,13 @@ const OutputView = props => {
   return (
     <>
       <div className='main view'>
-        <ui>
+        <ul>
         <li><strong>人口: {props.country.population}      人</strong></li>
         <li><strong>面積: {props.country.area}            km2</strong></li>
         <li><strong>首都: {props.country.capital}</strong></li>
         <li><strong>通貨: {props.country.currentcies}</strong></li>
         <li><strong>地域: {props.country.region}</strong></li>
-        </ui>
+        </ul>
         <img src={props.country.flag} alt="国旗"  />
       </div>
 
