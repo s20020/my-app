@@ -55,6 +55,7 @@ const Title = props => <div className='main title'><h1>{props.children}</h1></di
 const InputView = props => {
   return (
     <div className='main selecter'>
+    <Paper>
       <Autocomplete
         id='combo-box-demo'
         options={props.names}
@@ -66,6 +67,7 @@ const InputView = props => {
           <TextField {...params} label='国を選ぼう' variant='outlined' />
         )}
       />
+    </Paper>
     </div>
   )
 }
